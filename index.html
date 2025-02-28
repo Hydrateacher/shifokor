@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quiz App</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Montserrat", sans-serif;
+        }
+
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: #5145BA;           
+            background-color: #f4f4f4;
+        }
+
+        .popup-container {
+            position: fixed;
+            left: 0;
+            top: 0;
+            padding: 15px;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: 0.2s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .popup-container.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .popup-container .quiz-box {
+            position: relative;
+            z-index: 5;
+            opacity: 0;
+            pointer-events: none;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.13);
+            transform: translateY(-50px);
+            transition: all 0.4s ease-out;
+        }
+
+        .popup-container.active .quiz-box {
+            opacity: 1;
+            z-index: 10;
+            pointer-events: auto;
+            transform: translateY(0);
+        }
+
+        /* Quiz Configuration Stylings */
+        .config-container {
+            z-index: 10;
+            width: 415px;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .config-container .config-title {
+            font-size: 1.31rem;
+        }
+
+        .config-container .config-option {
+            margin-top: 25px;
+        }
+
+        .config-option .option-title {
+            font-weight: 500;
+            font-size: 1.125rem;
+            margin-bottom: 20px;
+        }
+
+        .config-option .category-options {
+            display: grid;
+            gap: 15px;
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .config-option .question-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            padding: 0 30px;
+            justify-content: center;
+        }
+
+        .config-option {
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .config-option button {
+            padding: 12px;
+            font-size: 0.938rem;
+            color: #000;
+            cursor: pointer;
+            font-weight: 500;
+            border-radius: 6px;
+            background: #fff;
+            border: 1px solid #9B8FFF;
+            transition: 0.3s ease;
+
+        }
+
+        .config-option button.active {
+            color: #5145BA;
+            border-color: #5145BA;
+            background: #dfdafd;
+        }
+
+        .config-option button:hover,
+        .quiz-content .answer-option:hover {
+            background: #dad5fd;
+        }
+
+        .config-option .question-options button {
+            flex: 1 1 10%;
+        }
+
+        .config-container .start-quiz-btn,
+        .quiz-footer .next-question-btn,
+        .result-container .try-again-btn {
+            color: #fff;
+            border: none;
+            font-weight: 500;
+            background: #5145BA;
+            padding: 13px 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            border-radius: 6px;
+            transition: background 0.3s ease;
+        }
+
+        .config-container .start-quiz-btn {
+            margin-top: 30px;
+        }
+
+        .config-container .start-quiz-btn:hover,
+        .quiz-footer .next-question-btn:hover,
+        .result-container .try-again-btn:hover {
+            background: #403795;
+        }
+
+        /* Quiz Container Stylings */
+        .quiz-container {
+            width: 480px;
+        }
+
+        .quiz-container .quiz-header {
+            display: flex;
+            padding: 14px 25px;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.09);
+        }
+
+        .quiz-header .quiz-title {
+            font-size: 1.43rem;
+            font-weight: 700;
+        }
+
+        .quiz-header .quiz-timer {
+            display: flex;
+            width: 70px;
+            color: #fff;
+            gap: 5px;
+            align-items: center;
+            background: #32313C;
+            border-radius: 6px;
+            padding: 7px 9px;
+            font-weight: 600;
+            transition: 0.2s ease;
+        }
+
+        .quiz-header .quiz-timer span {
+            font-size: 1.4rem;
+        }
+
+        .quiz-container .quiz-content {
+            padding: 20px 25px 25px;
+        }
+
+        .quiz-content .question-text {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .quiz-content .answer-options {
+            list-style: none;
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            flex-direction: column;
+        }
+
+        .quiz-content .answer-option {
+            display: flex;
+            cursor: pointer;
+            align-items: center;
+            font-weight: 500;
+            border-radius: 6px;
+            padding: 13px 16px;
+            border: 1px solid #B5ACFF;
+            background: #F3F1FF;
+            justify-content: space-between;
+            transition: 0.3s ease;
+        }
+
+        .quiz-content .answer-option span {
+            display: block;
+            flex-shrink: 0;
+            margin: -4px -3px -4px 12px;
+        }
+
+        .quiz-content .answer-option.correct {
+            border-color: #B7E1C1;
+            background: #D4EDDA;
+            color: #155724;
+        }
+
+        .quiz-content .answer-option.correct span {
+            color: #16AE56;
+        }
+
+        .quiz-content .answer-option.incorrect {
+            border-color: #F4BEC3;
+            background: #F8D7DA;
+            color: #721C24;
+        }
+
+        .quiz-content .answer-option.incorrect span {
+            color: #F23723;
+        }
+
+        .quiz-container .quiz-footer {
+            padding: 15px 25px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-top: 1px solid #C6C6C6;
+        }
+
+        .quiz-footer .question-status {
+            font-weight: 500;
+        }
+
+        .quiz-footer .question-status b {
+            font-weight: 600;
+        }
+
+        .quiz-footer .next-question-btn {
+            display: inline-flex;
+            gap: 5px;
+            align-items: center;
+            padding: 9px 17px;
+        }
+
+        /* Quiz Result Stylings */
+        .result-container {
+            text-align: center;
+            padding: 40px;
+            width: 410px;
+        }
+
+        .result-container .result-img {
+            width: 110px;
+            margin-left: 60px;
+        }
+
+        .result-container .result-title {
+            margin-top: 30px;
+        }
+
+        .result-container .result-message {
+            font-size: 1.125rem;
+            font-weight: 500;
+            margin-top: 15px;
+        }
+
+        .result-container .result-message b {
+            font-weight: 700;
+            color: #5145BA;
+        }
+
+        .result-container .try-again-btn {
+            padding: 12px 20px;
+            margin-top: 30px;
+        }
+
+        /* Media query code for mobile screens */
+        @media (max-width: 624px) {
+
+            .config-container,
+            .quiz-container .quiz-content {
+                padding: 20px;
+            }
+
+            .quiz-content .answer-option {
+                padding: 12px 10px 12px 14px;
+            }
+
+            .config-container .question-options {
+                padding: 0 15px;
+            }
+
+            .quiz-container .quiz-header,
+            .quiz-container .quiz-footer {
+                padding: 13px 20px;
+            }
+
+            .quiz-header .quiz-title,
+            .quiz-content .question-text {
+                font-size: 1.3rem;
+            }
+
+            .result-container {
+                padding: 40px 20px;
+            }
+
+            .result-container .result-title {
+                font-size: 1.4rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="config-popup popup-container active">
+        <div class="config-container quiz-box">
+            <!-- Guruh tanlash -->
+            <div id="step1" class="config-popup popup-container active">
+                <div class="config-container quiz-box">
+                    <h2 class="config-title">Siz qaysi guruhga kirasiz?</h2>
+                    <div class="config-option">
+                        <div class="category-options">
+                            <button onclick="selectTurkum('shifokorlar')">Shifokorlar</button>
+                            <button onclick="selectTurkum('hamshiralar')">Hamshiralar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mutaxassislik tanlash -->
+            <div id="step2" class="config-popup popup-container hidden">
+                <div class="config-container quiz-box">
+                    <h2 class="config-title">Mutaxassislikni tanlang</h2>
+                    <ul id="categoryList"></ul>
+                </div>
+            </div>
+
+            <div class="config-option">
+                <h4 class="option-title">Savollar soni</h4>
+                <div class="question-options">
+                    <button class="question-option">5</button>
+                    <button class="question-option active">10</button>
+                    <button class="question-option">15</button>
+                    <button class="question-option">20</button>
+                    <button class="question-option">25</button>
+                </div>
+            </div>
+
+            <button class="start-quiz-btn">Testni boshlash</button>
+        </div>
+    </div>
+
+
+    <div id="step3" class="quiz-popup popup-container">
+        <div class="quiz-container quiz-box">
+            <header class="quiz-header">
+                <h2 class="quiz-title">Savollar</h2>
+                <div class="quiz-timer">
+                    <span class="material-symbols-rounded">timer</span>
+                    <p class="timer-duration"></p>
+                </div>
+            </header>
+
+            <div class="quiz-content">
+                <h1 class="question-text"></h1>
+                <ul class="answer-options"></ul>
+            </div>
+
+            <div class="quiz-footer">
+                <p class="question-status"></p>
+                <button class="next-question-btn">
+                    Keyingi
+                    <span class="material-symbols-rounded">arrow_right_alt</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quiz Result Popup -->
+    <div class="result-popup popup-container">
+        <div class="result-container quiz-box">
+            <div class="result-img">
+                <script src="https://cdn.lordicon.com/lordicon.js"></script>
+                <lord-icon src="https://cdn.lordicon.com/yqgsjpsy.json" trigger="hover" style="width:250px;height:250px">
+                </lord-icon>
+            </div>
+            <h2 class="result-title">Test yakunlandi!</h2>
+            <p class="result-message"></p>
+            <button class="try-again-btn">Qayta boshlash</button>
+        </div>
+    </div>
+
+
+    
+    <script>
+        let turkum = "";
+        let questions = [];
+        let currentQuestionIndex = 0;
+        let correctAnswersCount = 0;
+
+        // **Foydalanuvchi tanlagan guruhni saqlaymiz**
+        function selectTurkum(selected) {
+            turkum = selected;
+            document.getElementById("step1").classList.add("hidden");
+            document.getElementById("step2").classList.remove("hidden");
+
+            fetch(`https://your-backend-ip:8080/get-categories/${turkum}`)
+                .then(res => res.json())
+                .then(data => {
+                    const categoryList = document.getElementById("categoryList");
+                    categoryList.innerHTML = "";
+                    data.forEach(category => {
+                        const li = document.createElement("li");
+                        li.textContent = category;
+                        li.onclick = () => selectCategory(category);
+                        categoryList.appendChild(li);
+                    });
+                });
+        }
+
+        // **Kategoriya tanlanganda savollarni yuklaymiz**
+        function selectCategory(category) {
+            document.getElementById("step2").classList.add("hidden");
+            document.getElementById("step3").classList.remove("hidden");
+            document.getElementById("categoryTitle").textContent = `${category} uchun savollar`;
+
+            fetch(`https://your-backend-ip:8080/get-questions/${turkum}/${category}`)
+                .then(res => res.json())
+                .then(data => {
+                    questions = data;
+                    currentQuestionIndex = 0;
+                    correctAnswersCount = 0;
+                    renderQuestion();
+                });
+        }
+
+        // **Savolni ekranga chiqarish**
+        function renderQuestion() {
+            if (currentQuestionIndex >= questions.length) {
+                showQuizResult();
+                return;
+            }
+
+            let currentQuestion = questions[currentQuestionIndex];
+            document.querySelector(".question-text").textContent = currentQuestion.question;
+
+            let answerOptions = document.querySelector(".answer-options");
+            answerOptions.innerHTML = "";
+
+            currentQuestion.options.forEach((option, index) => {
+                const li = document.createElement("li");
+                li.classList.add("answer-option");
+                li.textContent = option;
+                li.onclick = () => handleAnswer(li, index);
+                answerOptions.appendChild(li);
+            });
+
+            document.querySelector(".next-question-btn").style.visibility = "hidden";
+        }
+
+        // **Javobni tanlash**
+        function handleAnswer(option, answerIndex) {
+            let isCorrect = questions[currentQuestionIndex].correctAnswer === answerIndex;
+            option.classList.add(isCorrect ? "correct" : "incorrect");
+            
+            if (isCorrect) correctAnswersCount++;
+
+            document.querySelectorAll(".answer-option").forEach(opt => {
+                opt.onclick = null;
+                if (opt.textContent === questions[currentQuestionIndex].options[questions[currentQuestionIndex].correctAnswer]) {
+                    opt.classList.add("correct");
+                }
+            });
+
+            document.querySelector(".next-question-btn").style.visibility = "visible";
+        }
+
+        // **Keyingi savolga o‘tish**
+        function loadNextQuestion() {
+            currentQuestionIndex++;
+            renderQuestion();
+        }
+
+        // **Test natijalarini chiqarish**
+        function showQuizResult() {
+            document.getElementById("step3").classList.add("hidden");
+            document.getElementById("step4").classList.remove("hidden");
+
+            const resultText = `Siz <b>${correctAnswersCount}</b> ta to‘g‘ri javob berdingiz. Savollar soni: <b>${questions.length}</b>`;
+            document.querySelector(".result-message").innerHTML = resultText;
+        }
+
+        // **Testni qayta boshlash**
+        function resetQuiz() {
+            document.getElementById("step4").classList.add("hidden");
+            document.getElementById("step1").classList.remove("hidden");
+        }
+
+    </script>
+</body>
+
+</html>
