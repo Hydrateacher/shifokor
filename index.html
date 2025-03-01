@@ -487,46 +487,76 @@
         }
 
 
-        // **Savolni ekranga chiqarish**
+        // **Massivni tasodifiy aralashtirish funksiyasi (Fisher-Yates algoritmi)**
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]]; // Elementlarni almashtirish
+            }
+        }
+        
+        // **Savollarni tasodifiy tartibda chiqarish uchun massivni aralashtiramiz**
+        function shuffleQuestions() {
+            shuffleArray(questions);
+        }
+        
         function renderQuestion() {
             if (currentQuestionIndex >= questions.length) {
                 showQuizResult();
                 return;
             }
-
+        
             let currentQuestion = questions[currentQuestionIndex];
             document.querySelector(".question-text").textContent = currentQuestion.question;
-
+        
             let answerOptions = document.querySelector(".answer-options");
             answerOptions.innerHTML = "";
-
-            currentQuestion.options.forEach((option, index) => {
+        
+            // **Javob variantlarini aralashtiramiz va yangi indeksni saqlaymiz**
+            let originalOptions = [...currentQuestion.options];
+            let shuffledOptions = [...currentQuestion.options];
+            shuffleArray(shuffledOptions);
+        
+            // **To‘g‘ri javobning yangi indeksini topamiz**
+            let correctAnswerIndex = shuffledOptions.indexOf(originalOptions[currentQuestion.correctAnswer]);
+        
+            shuffledOptions.forEach((option, index) => {
                 const li = document.createElement("li");
                 li.classList.add("answer-option");
                 li.textContent = option;
-                li.onclick = () => handleAnswer(li, index);
+                li.onclick = () => handleAnswer(li, index, correctAnswerIndex);
                 answerOptions.appendChild(li);
             });
-
+        
             document.querySelector(".next-question-btn").style.visibility = "hidden";
         }
 
+        
+        // **Testni boshlaganda, savollarni aralashtiramiz**
+        function startQuiz() {
+            shuffleQuestions(); // Savollarni aralashtiramiz
+            currentQuestionIndex = 0;
+            renderQuestion();
+        }
+
+
         // **Javobni tanlash**
-        function handleAnswer(option, answerIndex) {
-            let isCorrect = questions[currentQuestionIndex].correctAnswer === answerIndex;
+        function handleAnswer(option, selectedIndex, correctIndex) {
+            let isCorrect = selectedIndex === correctIndex;
             option.classList.add(isCorrect ? "correct" : "incorrect");
             
             if (isCorrect) correctAnswersCount++;
-
+        
             document.querySelectorAll(".answer-option").forEach(opt => {
                 opt.onclick = null;
                 if (opt.textContent === questions[currentQuestionIndex].options[questions[currentQuestionIndex].correctAnswer]) {
                     opt.classList.add("correct");
                 }
             });
-
+        
             document.querySelector(".next-question-btn").style.visibility = "visible";
         }
+
 
         // **Keyingi savolga o‘tish**
         function loadNextQuestion() {
