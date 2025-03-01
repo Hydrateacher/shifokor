@@ -436,18 +436,26 @@
             document.getElementById("step1").classList.add("hidden");
             document.getElementById("step2").classList.remove("hidden");
 
-            fetch(`https://your-backend-ip:8080/get-categories/${turkum}`)
-                .then(res => res.json())
-                .then(data => {
-                    const categoryList = document.getElementById("categoryList");
-                    categoryList.innerHTML = "";
-                    data.forEach(category => {
-                        const li = document.createElement("li");
-                        li.textContent = category;
-                        li.onclick = () => selectCategory(category);
-                        categoryList.appendChild(li);
-                    });
+            fetch(`https://your-backend-ip:8080/get-categories`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ group: turkum })
+            })
+            .then(res => res.json())
+            .then(data => {
+                const categoryList = document.getElementById("categoryList");
+                categoryList.innerHTML = "";
+                data.categories.forEach(category => {
+                    const li = document.createElement("li");
+                    li.textContent = category;
+                    li.onclick = () => selectCategory(category);
+                    categoryList.appendChild(li);
                 });
+            })
+            .catch(error => console.error("Xatolik yuz berdi:", error));
+
         }
 
         // **Kategoriya tanlanganda savollarni yuklaymiz**
