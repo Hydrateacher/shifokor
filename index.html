@@ -463,16 +463,29 @@
             document.getElementById("step2").classList.add("hidden");
             document.getElementById("step3").classList.remove("hidden");
             document.getElementById("categoryTitle").textContent = `${category} uchun savollar`;
-
-            fetch(`https://your-backend-ip:8080/get-questions/${turkum}/${category}`)
-                .then(res => res.json())
-                .then(data => {
-                    questions = data;
-                    currentQuestionIndex = 0;
-                    correctAnswersCount = 0;
-                    renderQuestion();
-                });
+        
+            fetch("https://your-backend-ip:8080/get-questions", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ group: turkum, category: category })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (!data || !Array.isArray(data.questions)) {
+                    console.error("Xatolik: Noto‘g‘ri javob formati", data);
+                    return;
+                }
+                
+                questions = data.questions;
+                currentQuestionIndex = 0;
+                correctAnswersCount = 0;
+                renderQuestion();
+            })
+            .catch(error => console.error("So‘rovda xatolik yuz berdi:", error));
         }
+
 
         // **Savolni ekranga chiqarish**
         function renderQuestion() {
