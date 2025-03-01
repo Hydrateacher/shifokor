@@ -462,7 +462,7 @@
         function selectCategory(category) {
             document.getElementById("step2").classList.add("hidden");
             document.getElementById("step3").classList.remove("hidden");
-            document.getElementById("categoryTitle").textContent = `${category} uchun savollar`;
+            
         
             fetch("https://circle-sentences-temp-mills.trycloudflare.com/get-questions", {
                 method: "POST",
