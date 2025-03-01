@@ -436,7 +436,7 @@
             document.getElementById("step1").classList.add("hidden");
             document.getElementById("step2").classList.remove("hidden");
 
-            fetch(`http://35.225.215.58:8080/get-categories`, {
+            fetch(`https://35.225.215.58:8080/get-categories`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -464,7 +464,7 @@
             document.getElementById("step3").classList.remove("hidden");
             document.getElementById("categoryTitle").textContent = `${category} uchun savollar`;
         
-            fetch("http://35.225.215.58:8080/get-questions", {
+            fetch("https://35.225.215.58:8080/get-questions", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
