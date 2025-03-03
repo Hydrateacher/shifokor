@@ -443,24 +443,14 @@
             console.log("Tanlangan guruh:", turkum);
         
             // **step1 ni yashirish va step2 ni ochish**
-            console.log(document.getElementById("step1").classList);
-            console.log(document.getElementById("step2").classList);
-
-            document.getElementById("step1").style.display = "none";
-            document.getElementById("step2").style.display = "block";
-
-
             
-            // document.getElementById("step1").classList.add("hidden");
-            // document.getElementById("step1").classList.remove("active"); // step1 ni yopamiz
+            document.getElementById("step1").classList.add("hidden");
+            document.getElementById("step1").classList.remove("active"); // step1 ni yopamiz
         
-            // document.getElementById("step2").classList.remove("hidden");
-            // document.getElementById("step2").classList.add("active"); // step2 ni ochamiz
+            document.getElementById("step2").classList.remove("hidden");
+            document.getElementById("step2").classList.add("active"); // step2 ni ochamiz
 
-            console.log(document.getElementById("step1"));
-            console.log(document.getElementById("step2"));
 
-        
             fetch("https://media-ai.uz/get-categories", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
