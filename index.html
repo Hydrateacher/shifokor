@@ -621,7 +621,10 @@
                 const li = document.createElement("li");
                 li.classList.add("answer-option");
                 li.textContent = option;
-                li.onclick = () => handleAnswer(li, index, correctAnswerIndex);
+                li.onclick = () => {
+                    clearInterval(timer); // Javob tanlansa, timer to‘xtaydi
+                    handleAnswer(li, index, correctAnswerIndex);
+                };
                 answerOptions.appendChild(li);
             });
         
