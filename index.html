@@ -521,6 +521,22 @@
             .catch(error => console.error("So‘rovda xatolik yuz berdi:", error));
         }
 
+        function startTimer() {
+            timeLeft = 60; // Har bir savolga yangi 60 soniya beriladi
+            document.querySelector(".timer-duration").textContent = `${timeLeft}s`;
+        
+            timer = setInterval(() => {
+                timeLeft--;
+                document.querySelector(".timer-duration").textContent = `${timeLeft}s`;
+        
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    loadNextQuestion(); // 60 soniya tugasa, avtomatik keyingi savolga o‘tish
+                }
+            }, 1000);
+        }
+
+
 
         // **Massivni tasodifiy aralashtirish funksiyasi (Fisher-Yates algoritmi)**
         function shuffleArray(array) {
@@ -541,25 +557,29 @@
                 return;
             }
         
+            clearInterval(timer); // Eski timerni to‘xtatamiz
+            startTimer(); // Yangi timer boshlaymiz
+        
             let currentQuestion = questions[currentQuestionIndex];
             document.querySelector(".question-text").textContent = currentQuestion.question;
         
             let answerOptions = document.querySelector(".answer-options");
             answerOptions.innerHTML = "";
         
-            // **Javob variantlarini aralashtiramiz va yangi indeksni saqlaymiz**
             let originalOptions = [...currentQuestion.options];
             let shuffledOptions = [...currentQuestion.options];
             shuffleArray(shuffledOptions);
         
-            // **To‘g‘ri javobning yangi indeksini topamiz**
             let correctAnswerIndex = shuffledOptions.indexOf(originalOptions[currentQuestion.correctAnswer]);
         
             shuffledOptions.forEach((option, index) => {
                 const li = document.createElement("li");
                 li.classList.add("answer-option");
                 li.textContent = option;
-                li.onclick = () => handleAnswer(li, index, correctAnswerIndex);
+                li.onclick = () => {
+                    clearInterval(timer); // Javob tanlansa, timer to‘xtaydi
+                    handleAnswer(li, index, correctAnswerIndex);
+                };
                 answerOptions.appendChild(li);
             });
         
