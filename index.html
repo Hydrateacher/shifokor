@@ -436,7 +436,7 @@
             document.getElementById("step1").classList.add("hidden");
             document.getElementById("step2").classList.remove("hidden");
 
-            fetch(`https://circle-sentences-temp-mills.trycloudflare.com/get-categories`, {
+            fetch(`https://media-ai.uz/get-categories`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -464,7 +464,7 @@
             document.getElementById("step3").classList.remove("hidden");
             
         
-            fetch("https://circle-sentences-temp-mills.trycloudflare.com/get-questions", {
+            fetch("https://media-ai.uz/get-questions", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
