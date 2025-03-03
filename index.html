@@ -438,20 +438,16 @@
         let currentQuestionIndex = 0;
         let correctAnswersCount = 0;
 
-        // **Foydalanuvchi tanlagan guruhni saqlaymiz**
         function selectTurkum(selected) {
             turkum = selected;
             console.log("Tanlangan guruh:", turkum);
         
-            // **step1 ni yashirish va step2 ni ochish**
-            
-            document.getElementById("step1").classList.add("hidden");
-            document.getElementById("step1").classList.remove("active"); // step1 ni yopamiz
+            // step1'ni yashirish
+            document.getElementById("step1").style.display = "none";
         
-            document.getElementById("step2").classList.remove("hidden");
-            document.getElementById("step2").classList.add("active"); // step2 ni ochamiz
-
-
+            // step2'ni ochish
+            document.getElementById("step2").style.display = "block";
+        
             fetch("https://media-ai.uz/get-categories", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -462,7 +458,7 @@
                 console.log("Kategoriya javobi:", data);
         
                 const categoryList = document.getElementById("categoryList");
-                categoryList.innerHTML = ""; // Avvalgi ma'lumotlarni tozalaymiz
+                categoryList.innerHTML = "";
         
                 if (!data.categories || data.categories.length === 0) {
                     console.error("Xatolik: Kategoriyalar mavjud emas");
@@ -474,13 +470,16 @@
                     btn.textContent = category;
                     btn.onclick = () => selectCategory(category);
                     categoryList.appendChild(btn);
-
                 });
         
                 console.log("Kategoriyalar ekranga chiqarildi!");
             })
-            .catch(error => console.error("Xatolik yuz berdi:", error));
+            .catch(error => {
+                console.error("Xatolik yuz berdi:", error);
+                alert("Kategoriyalarni yuklab bo‘lmadi. Iltimos, qaytadan urinib ko‘ring.");
+            });
         }
+
 
 
 
