@@ -373,16 +373,7 @@
                         <div class="category-options" id="categoryList">
                     </div>
         
-                    <div class="config-option">
-                        <h4 class="option-title">Savollar soni</h4>
-                        <div class="question-options">
-                            <button class="question-option">5</button>
-                            <button class="question-option">10</button>
-                            <button class="question-option">15</button>
-                            <button class="question-option">20</button>
-                            <button class="question-option">25</button>
-                        </div>
-                    </div>
+                    
        
                     <button class="start-quiz-btn">Testni boshlash</button>
                 </div>
@@ -440,6 +431,8 @@
         let questions = [];
         let currentQuestionIndex = 0;
         let correctAnswersCount = 0;
+        let category = null;
+        let selectedQuestionCount = 50;
 
         // **Foydalanuvchi tanlagan guruhni saqlaymiz**
         function selectTurkum(selected) {
@@ -488,7 +481,6 @@
 
 
 
-
         // **Kategoriya tanlanganda savollarni yuklaymiz**
         function selectCategory(category) {
             
@@ -499,27 +491,29 @@
             document.getElementById("step3").classList.add("active"); // step3 ni ochamiz
             
         
+            // **Tanlangan kategoriya va test soni bilan backendga so‘rov yuboramiz**
             fetch("https://media-ai.uz/get-questions", {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ group: turkum, category: category })
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    group: turkum, // Shifokor yoki hamshira
+                    category: category, // Tanlangan mutaxassislik
+                    questionCount: selectedQuestionCount // Test soni
+                })
             })
             .then(res => res.json())
             .then(data => {
-                if (!data || !Array.isArray(data.questions)) {
-                    console.error("Xatolik: Noto‘g‘ri javob formati", data);
+                console.log("Backenddan kelgan testlar:", data);
+                if (!data.questions || data.questions.length === 0) {
+                    alert("Ushbu kategoriyada testlar mavjud emas.");
                     return;
                 }
-                
                 questions = data.questions;
                 currentQuestionIndex = 0;
-                correctAnswersCount = 0;
                 renderQuestion();
             })
-            .catch(error => console.error("So‘rovda xatolik yuz berdi:", error));
-        }
+            .catch(error => console.error("Xatolik yuz berdi:", error));
+        });
 
         function startTimer() {
             timeLeft = 60; // Har bir savolga yangi 60 soniya beriladi
