@@ -433,6 +433,14 @@
 
     
     <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelectorAll(".category-options button").forEach(button => {
+                button.addEventListener("click", function() {
+                    selectTurkum(this.textContent.toLowerCase().trim()); 
+                });
+            });
+        });
+
         let turkum = "";
         let questions = [];
         let currentQuestionIndex = 0;
