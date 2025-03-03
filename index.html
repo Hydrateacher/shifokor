@@ -558,14 +558,53 @@
         let timer; // Timer uchun o‘zgaruvchi
         let timeLeft = 60; // Har bir savol uchun 60 soniya
 
+        // function renderQuestion() {
+        //     if (currentQuestionIndex >= questions.length) {
+        //         showQuizResult();
+        //         return;
+        //     }
+
+        //     clearInterval(timer); // Eski timerni to‘xtatamiz
+        //     startTimer(); // Yangi timer boshlaymiz
+        
+        //     let currentQuestion = questions[currentQuestionIndex];
+        //     document.querySelector(".question-text").textContent = currentQuestion.question;
+        
+        //     let answerOptions = document.querySelector(".answer-options");
+        //     answerOptions.innerHTML = "";
+        
+        //     // **Javob variantlarini aralashtiramiz va yangi indeksni saqlaymiz**
+        //     let originalOptions = [...currentQuestion.options];
+        //     let shuffledOptions = [...currentQuestion.options];
+        //     shuffleArray(shuffledOptions);
+        
+        //     // **To‘g‘ri javobning yangi indeksini topamiz**
+        //     let correctAnswerIndex = shuffledOptions.indexOf(originalOptions[currentQuestion.correctAnswer]);
+        
+        //     shuffledOptions.forEach((option, index) => {
+        //         const li = document.createElement("li");
+        //         li.classList.add("answer-option");
+        //         li.textContent = option;
+        //         li.onclick = () => {
+        //             clearInterval(timer); // Javob tanlansa, timer to‘xtaydi
+        //             handleAnswer(li, index, correctAnswerIndex);
+        //         };
+        //         answerOptions.appendChild(li);
+        //     });
+        
+        //     document.querySelector(".next-question-btn").style.visibility = "hidden";
+        // }
+
+                // **Savollarni tasodifiy tartibda chiqarish uchun massivni aralashtiramiz**
+        function shuffleQuestions() {
+            shuffleArray(questions);
+        }
+        
         function renderQuestion() {
             if (currentQuestionIndex >= questions.length) {
                 showQuizResult();
                 return;
             }
-
-            clearInterval(timer); // Eski timerni to‘xtatamiz
-            startTimer(); // Yangi timer boshlaymiz
         
             let currentQuestion = questions[currentQuestionIndex];
             document.querySelector(".question-text").textContent = currentQuestion.question;
@@ -585,10 +624,7 @@
                 const li = document.createElement("li");
                 li.classList.add("answer-option");
                 li.textContent = option;
-                li.onclick = () => {
-                    clearInterval(timer); // Javob tanlansa, timer to‘xtaydi
-                    handleAnswer(li, index, correctAnswerIndex);
-                };
+                li.onclick = () => handleAnswer(li, index, correctAnswerIndex);
                 answerOptions.appendChild(li);
             });
         
