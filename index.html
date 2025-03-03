@@ -445,11 +445,9 @@
         
             // **step1 ni yashirish va step2 ni ochish**
             
-            document.getElementById("step1").classList.add("hidden");
-            document.getElementById("step1").classList.remove("active"); // step1 ni yopamiz
-        
-            document.getElementById("step2").classList.remove("hidden");
-            document.getElementById("step2").classList.add("active"); // step2 ni ochamiz
+            // step1 ni yashirish va step2 ni ko'rsatish
+            document.getElementById("step1").style.display = "none";
+            document.getElementById("step2").style.display = "block";
 
 
             fetch("https://media-ai.uz/get-categories", {
