@@ -363,7 +363,7 @@
             </div>
 
             <!-- Mutaxassislik tanlash -->
-            <div id="step2" class="config-popup popup-container">
+            <div id="step2" class="config-popup popup-container hidden">
                 <div class="config-container quiz-box">
                            
                     <div class="config-option">
@@ -442,16 +442,13 @@
             console.log("Tanlangan guruh:", turkum);
         
             // **step1 ni yashirish va step2 ni ochish**
-            // **step1 ni yashirish va step2 ni ko‘rsatish**
-            document.getElementById("step1").style.display = "none"; // step1 ni yopamiz
-            document.getElementById("step2").style.display = "block"; // step2 ni ochamiz
 
             
-            // document.getElementById("step1").classList.add("hidden");
-            // document.getElementById("step1").classList.remove("active"); // step1 ni yopamiz
+            document.getElementById("step1").classList.add("hidden");
+            document.getElementById("step1").classList.remove("active"); // step1 ni yopamiz
         
-            // document.getElementById("step2").classList.remove("hidden");
-            // document.getElementById("step2").classList.add("active"); // step2 ni ochamiz
+            document.getElementById("step2").classList.remove("hidden");
+            document.getElementById("step2").classList.add("active"); // step2 ni ochamiz
         
             fetch("https://media-ai.uz/get-categories", {
                 method: "POST",
@@ -597,10 +594,10 @@
         // **Test natijalarini chiqarish**
         function showQuizResult() {
             document.getElementById("step3").classList.add("hidden");
-            document.getElementById("step3").classList.remove("active"); // step2 ni yopamiz
+            document.getElementById("step3").classList.remove("active"); // step3 ni yopamiz
         
             document.getElementById("step4").classList.remove("hidden");
-            document.getElementById("step4").classList.add("active"); // step3 ni ochamiz;
+            document.getElementById("step4").classList.add("active"); // step4 ni ochamiz;
 
             const resultText = `Siz <b>${correctAnswersCount}</b> ta to‘g‘ri javob berdingiz. Savollar soni: <b>${questions.length}</b>`;
             document.querySelector(".result-message").innerHTML = resultText;
