@@ -354,10 +354,11 @@
                 <div class="config-container quiz-box">
                     <h2 class="config-title">Siz qaysi guruhga kirasiz?</h2>
                     <div class="config-option">
-                        <div class="category-options"> 
-                            <button onclick="selectTurkum('shifokorlar')">Shifokorlar</button>
-                            <button onclick="selectTurkum('hamshiralar')">Hamshiralar</button>
+                        <div class="category-options">
+                            <button class="group-btn" data-group="shifokorlar">Shifokorlar</button>
+                            <button class="group-btn" data-group="hamshiralar">Hamshiralar</button>
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -428,7 +429,15 @@
         let questions = [];
         let currentQuestionIndex = 0;
         let correctAnswersCount = 0;
-        
+
+        document.addEventListener("DOMContentLoaded", () => {
+            document.querySelectorAll(".group-btn").forEach(button => {
+                button.addEventListener("click", function () {
+                    let group = this.getAttribute("data-group"); // "shifokorlar" yoki "hamshiralar"
+                    selectTurkum(group);
+                });
+            });
+        });
 
         // **Foydalanuvchi tanlagan guruhni saqlaymiz**
         function selectTurkum(selected) {
