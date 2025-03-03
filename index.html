@@ -418,7 +418,7 @@
             </div>
             <h2 class="result-title">Test yakunlandi!</h2>
             <p class="result-message"></p>
-            <button class="try-again-btn">Qayta boshlash</button>
+            
         </div>
     </div>
 
@@ -433,20 +433,24 @@
         // **Foydalanuvchi tanlagan guruhni saqlaymiz**
         function selectTurkum(selected) {
             turkum = selected;
+            console.log("Tanlangan guruh:", turkum); // Qaysi guruh tanlanganini tekshiramiz
             document.getElementById("step1").classList.add("hidden");
             document.getElementById("step2").classList.remove("hidden");
-
-            fetch(`https://media-ai.uz/get-categories`, {
+        
+            fetch("https://media-ai.uz/get-categories", {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ group: turkum })
             })
             .then(res => res.json())
             .then(data => {
+                console.log("Kategoriya javobi:", data); // Backend javobini tekshiramiz
                 const categoryList = document.getElementById("categoryList");
                 categoryList.innerHTML = "";
+                if (!data.categories || data.categories.length === 0) {
+                    console.error("Kategoriya topilmadi");
+                    return;
+                }
                 data.categories.forEach(category => {
                     const li = document.createElement("li");
                     li.textContent = category;
@@ -455,8 +459,8 @@
                 });
             })
             .catch(error => console.error("Xatolik yuz berdi:", error));
-
         }
+
 
         // **Kategoriya tanlanganda savollarni yuklaymiz**
         function selectCategory(category) {
@@ -573,11 +577,7 @@
             document.querySelector(".result-message").innerHTML = resultText;
         }
 
-        // **Testni qayta boshlash**
-        function resetQuiz() {
-            document.getElementById("step4").classList.add("hidden");
-            document.getElementById("step1").classList.remove("hidden");
-        }
+       
 
     </script>
 </body>
