@@ -441,6 +441,13 @@
             });
         });
 
+        document.querySelectorAll(".category-options button").forEach(button => {
+            button.addEventListener("click", function() {
+                console.log("Tugma bosildi:", this.textContent);
+            });
+        });
+
+
         let turkum = "";
         let questions = [];
         let currentQuestionIndex = 0;
