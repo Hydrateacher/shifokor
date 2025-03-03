@@ -371,7 +371,7 @@
                         <div class="category-options" id="categoryList">
                     </div>
         
-<!--                     <div class="config-option">
+                    <div class="config-option">
                         <h4 class="option-title">Savollar soni</h4>
                         <div class="question-options">
                             <button class="question-option">5</button>
@@ -380,7 +380,7 @@
                             <button class="question-option">20</button>
                             <button class="question-option">25</button>
                         </div>
-                    </div> -->
+                    </div>
         
                     <button class="start-quiz-btn">Testni boshlash</button>
                 </div>
@@ -488,11 +488,11 @@
         // **Kategoriya tanlanganda savollarni yuklaymiz**
         function selectCategory(category) {
             
-            // document.getElementById("step2").classList.add("hidden");
-            // document.getElementById("step2").classList.remove("active"); // step2 ni yopamiz
+            document.getElementById("step2").classList.add("hidden");
+            document.getElementById("step2").classList.remove("active"); // step2 ni yopamiz
         
-            // document.getElementById("step3").classList.remove("hidden");
-            // document.getElementById("step3").classList.add("active"); // step3 ni ochamiz
+            document.getElementById("step3").classList.remove("hidden");
+            document.getElementById("step3").classList.add("active"); // step3 ni ochamiz
             
         
             fetch("https://media-ai.uz/get-questions", {
