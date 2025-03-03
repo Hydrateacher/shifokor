@@ -26,10 +26,7 @@
             background-color: #f4f4f4;
         }
 
-        .category-options {
-            position: relative;
-            z-index: 9999 !important;
-        }
+        
 
 
         .popup-container {
@@ -434,19 +431,7 @@
 
     
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            document.querySelectorAll(".category-options button").forEach(button => {
-                button.addEventListener("click", function() {
-                    selectTurkum(this.textContent.toLowerCase().trim()); 
-                });
-            });
-        });
-
-        document.querySelectorAll(".category-options button").forEach(button => {
-            button.addEventListener("click", function() {
-                console.log("Tugma bosildi:", this.textContent);
-            });
-        });
+        
 
 
         let turkum = "";
@@ -503,11 +488,11 @@
         // **Kategoriya tanlanganda savollarni yuklaymiz**
         function selectCategory(category) {
             
-            document.getElementById("step2").classList.add("hidden");
-            document.getElementById("step2").classList.remove("active"); // step2 ni yopamiz
+            // document.getElementById("step2").classList.add("hidden");
+            // document.getElementById("step2").classList.remove("active"); // step2 ni yopamiz
         
-            document.getElementById("step3").classList.remove("hidden");
-            document.getElementById("step3").classList.add("active"); // step3 ni ochamiz
+            // document.getElementById("step3").classList.remove("hidden");
+            // document.getElementById("step3").classList.add("active"); // step3 ni ochamiz
             
         
             fetch("https://media-ai.uz/get-questions", {
