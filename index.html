@@ -305,6 +305,12 @@
             margin-top: 30px;
         }
 
+        #categoryList {
+            display: block !important;
+            background: yellow;
+        }
+
+
         /* Media query code for mobile screens */
         @media (max-width: 624px) {
 
@@ -436,7 +442,7 @@
             console.log("Tanlangan guruh:", turkum); // Guruh tanlanganini tekshirish
         
             document.getElementById("step1").classList.add("hidden");
-            document.getElementById("step2").classList.remove("hidden");
+            document.getElementById("step2").classList.remove("hidden"); // **step2 ekranga chiqariladi**
         
             fetch("https://media-ai.uz/get-categories", {
                 method: "POST",
@@ -448,11 +454,6 @@
                 console.log("Kategoriya javobi:", data); // Backenddan kelayotgan ma'lumotni tekshiramiz
         
                 const categoryList = document.getElementById("categoryList");
-                if (!categoryList) {
-                    console.error("Xatolik: categoryList elementi topilmadi!");
-                    return;
-                }
-        
                 categoryList.innerHTML = ""; // Avvalgi elementlarni tozalaymiz
         
                 if (!data.categories || data.categories.length === 0) {
@@ -471,6 +472,7 @@
             })
             .catch(error => console.error("Xatolik yuz berdi:", error));
         }
+
 
 
         // **Kategoriya tanlanganda savollarni yuklaymiz**
