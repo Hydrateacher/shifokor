@@ -433,7 +433,8 @@
         // **Foydalanuvchi tanlagan guruhni saqlaymiz**
         function selectTurkum(selected) {
             turkum = selected;
-            console.log("Tanlangan guruh:", turkum); // Qaysi guruh tanlanganini tekshiramiz
+            console.log("Tanlangan guruh:", turkum); // Guruh tanlanganini tekshirish
+        
             document.getElementById("step1").classList.add("hidden");
             document.getElementById("step2").classList.remove("hidden");
         
@@ -444,19 +445,29 @@
             })
             .then(res => res.json())
             .then(data => {
-                console.log("Kategoriya javobi:", data); // Backend javobini tekshiramiz
+                console.log("Kategoriya javobi:", data); // Backenddan kelayotgan ma'lumotni tekshiramiz
+        
                 const categoryList = document.getElementById("categoryList");
-                categoryList.innerHTML = "";
-                if (!data.categories || data.categories.length === 0) {
-                    console.error("Kategoriya topilmadi");
+                if (!categoryList) {
+                    console.error("Xatolik: categoryList elementi topilmadi!");
                     return;
                 }
+        
+                categoryList.innerHTML = ""; // Avvalgi elementlarni tozalaymiz
+        
+                if (!data.categories || data.categories.length === 0) {
+                    console.error("Xatolik: Kategoriyalar mavjud emas");
+                    return;
+                }
+        
                 data.categories.forEach(category => {
                     const li = document.createElement("li");
                     li.textContent = category;
                     li.onclick = () => selectCategory(category);
                     categoryList.appendChild(li);
                 });
+        
+                console.log("Kategoriyalar ekranga chiqarildi!");
             })
             .catch(error => console.error("Xatolik yuz berdi:", error));
         }
