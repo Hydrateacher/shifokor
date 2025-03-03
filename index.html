@@ -469,10 +469,11 @@
                 }
         
                 data.categories.forEach(category => {
-                    const li = document.createElement("li");
-                    li.textContent = category;
-                    li.onclick = () => selectCategory(category);
-                    categoryList.appendChild(li);
+                    const btn = document.createElement("button");
+                    btn.textContent = category;
+                    btn.onclick = () => selectCategory(category);
+                    categoryList.appendChild(btn);
+
                 });
         
                 console.log("Kategoriyalar ekranga chiqarildi!");
