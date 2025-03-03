@@ -25,11 +25,6 @@
             background: #5145BA;           
             background-color: #f4f4f4;
         }
-        
-
-        .hidden {
-            display: none !important;
-        }
 
         .popup-container {
             position: fixed;
@@ -55,8 +50,8 @@
         .popup-container .quiz-box {
             position: relative;
             z-index: 5;
-            opacity: 1;
-            pointer-events: auto;
+            opacity: 0;
+            pointer-events: none;
             background: #fff;
             border-radius: 8px;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.13);
@@ -309,9 +304,6 @@
             padding: 12px 20px;
             margin-top: 30px;
         }
-
-        
-
 
         /* Media query code for mobile screens */
         @media (max-width: 624px) {
