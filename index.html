@@ -650,19 +650,11 @@
 
             setTimeout(() => {
                 if (window.Telegram && Telegram.WebApp) {
-                    const userId = Telegram.WebApp.initDataUnsafe?.user?.id;
-            
-                    
-                    } else {
-                        console.error("🚨 Telegram foydalanuvchi ID topilmadi!");
-                    }
-            
-                    Telegram.WebApp.close();
+                    Telegram.WebApp.close(); // Mini app yopiladi
                 } else {
-                    window.close();
+                    window.close(); // Agar Telegram.WebApp ishlamasa, brauzer oynasini yopishga harakat qiladi
                 }
             }, 3000);
-
 
         }
 
