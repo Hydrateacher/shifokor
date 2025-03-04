@@ -649,17 +649,23 @@
 
             setTimeout(() => {
                 if (window.Telegram && Telegram.WebApp) {
-                    // **Natija JSON shaklida yuboriladi**
-                    Telegram.WebApp.sendData(JSON.stringify({
-                        status: "select_language",
-                        result: {
-                            correct_answers: correctAnswersCount,
-                            total_questions: questions.length,
-                            message: resultText
-                        }
-                    }));
+                    const userId = Telegram.WebApp.initDataUnsafe?.user?.id;
             
-                    // Mini-appni yopish
+                    console.log("📢 Telegram User ID:", userId); // Foydalanuvchi ID-si tekshiriladi
+            
+                    if (userId) {
+                        Telegram.WebApp.sendData(JSON.stringify({
+                            status: "select_language",
+                            result: {
+                                correct_answers: correctAnswersCount,
+                                total_questions: questions.length,
+                                message: Siz ${correctAnswersCount} ta to‘g‘ri javob berdingiz.
+                            }
+                        }));
+                    } else {
+                        console.error("🚨 Telegram foydalanuvchi ID topilmadi!");
+                    }
+            
                     Telegram.WebApp.close();
                 } else {
                     window.close();
