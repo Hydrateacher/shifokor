@@ -647,14 +647,26 @@
             const resultText = `Siz <b>${correctAnswersCount}</b> ta to‘g‘ri javob berdingiz. Savollar soni: <b>${questions.length}</b>`;
             document.querySelector(".result-message").innerHTML = resultText;
 
-            // **5 sekunddan keyin mini-app yopiladi**
             setTimeout(() => {
                 if (window.Telegram && Telegram.WebApp) {
-                    Telegram.WebApp.close(); // ✅ Telegram Mini App-ni yopish
+                    // **Natija JSON shaklida yuboriladi**
+                    Telegram.WebApp.sendData(JSON.stringify({
+                        status: "select_language",
+                        result: {
+                            correct_answers: correctAnswersCount,
+                            total_questions: questions.length,
+                            message: resultText
+                        }
+                    }));
+            
+                    // Mini-appni yopish
+                    Telegram.WebApp.close();
                 } else {
-                    window.close(); // ❌ Brauzer oynasini yopishga harakat qilish
+                    window.close();
                 }
-            }, 5000);
+            }, 3000);
+
+
         }
 
        
