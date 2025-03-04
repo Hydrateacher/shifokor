@@ -53,6 +53,7 @@
         .popup-container.active {
             opacity: 1;
             pointer-events: auto;
+            z-index: 10;
         }
 
         .popup-container .quiz-box {
@@ -69,7 +70,7 @@
 
         .popup-container.active .quiz-box {
             opacity: 1;
-            z-index: 100;
+            z-index: 10;
             pointer-events: auto;
             transform: translateY(0);
         }
@@ -372,7 +373,7 @@
             </div>
         
 
-<!--             Mutaxassislik tanlash -->
+            <!-- Mutaxassislik tanlash -->
             <div id="step2" class="config-popup popup-container">
                 <div class="config-container quiz-box">
                            
@@ -414,7 +415,7 @@
         </div>
     </div>
 
-<!--     Quiz Result Popup --> 
+    <!-- Quiz Result Popup --> 
     <div id="step4" class="result-popup popup-container">
         <div class="result-container quiz-box">
             <div class="result-img">
