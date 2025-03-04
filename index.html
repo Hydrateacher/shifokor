@@ -355,8 +355,8 @@
                     <h2 class="config-title">Siz qaysi guruhga kirasiz?</h2>
                     <div class="config-option">
                         <div class="category-options">
-                            <button onclick="selectTurkum('shifokorlar')">Shifokorlar</button>
-                            <button onclick="selectTurkum('hamshiralar')">Hamshiralar</button>
+                            <button id="shifokorlarBtn">Shifokorlar</button>
+                            <button id="hamshiralarBtn">Hamshiralar</button>
                         </div>
 
                     </div>
@@ -429,6 +429,15 @@
         let questions = [];
         let currentQuestionIndex = 0;
         let correctAnswersCount = 0;
+        document.addEventListener("DOMContentLoaded", () => {
+            document.getElementById("shifokorlarBtn").addEventListener("click", function() {
+                selectTurkum("shifokorlar");
+            });
+        
+            document.getElementById("hamshiralarBtn").addEventListener("click", function() {
+                selectTurkum("hamshiralar");
+            });
+        });
 
         
 
