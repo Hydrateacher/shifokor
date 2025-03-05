@@ -156,21 +156,25 @@
             font-size: 1rem;
             border-radius: 6px;
             transition: background 0.3s ease;
+            overflow-y: auto;
         }
 
         .config-container .start-quiz-btn {
             margin-top: 30px;
+            overflow-y: auto;
         }
 
         .config-container .start-quiz-btn:hover,
         .quiz-footer .next-question-btn:hover,
         .result-container .try-again-btn:hover {
             background: #403795;
+            overflow-y: auto;
         }
 
         /* Quiz Container Stylings */
         .quiz-container {
             width: 480px;
+            overflow-y: auto;
         }
 
         .quiz-container .quiz-header {
@@ -623,7 +627,12 @@
             });
         
             document.querySelector(".next-question-btn").style.visibility = "visible";
-        }
+
+            // ⏳ **3 soniyadan keyin avtomatik keyingi savolga o‘tish**
+            setTimeout(() => {
+                loadNextQuestion();
+            }, 3000);
+                }
 
         document.addEventListener("DOMContentLoaded", () => {
             document.querySelector(".next-question-btn").addEventListener("click", loadNextQuestion);
