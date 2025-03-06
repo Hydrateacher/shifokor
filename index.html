@@ -425,10 +425,10 @@
 
             <div class="quiz-footer">
                 <p class="question-status"></p>
-                <button class="next-question-btn">
+<!--                 <button class="next-question-btn">
                     Keyingi
                     <span class="material-symbols-rounded">arrow_right_alt</span>
-                </button>
+                </button> -->
             </div>
         </div>
     </div>
@@ -614,7 +614,7 @@
                 answerOptions.appendChild(li);
             });
         
-            document.querySelector(".next-question-btn").style.visibility = "hidden";
+            // document.querySelector(".next-question-btn").style.visibility = "hidden";
         }
 
         
@@ -639,14 +639,16 @@
                     opt.classList.add("correct");
                 }
             });
+            // 2 soniyadan keyin keyingi savolga o'tish
+            setTimeout(loadNextQuestion, 2000);
         
-            document.querySelector(".next-question-btn").style.visibility = "visible";
+            // document.querySelector(".next-question-btn").style.visibility = "visible";
         }
             
 
-        document.addEventListener("DOMContentLoaded", () => {
-            document.querySelector(".next-question-btn").addEventListener("click", loadNextQuestion);
-        });
+        // document.addEventListener("DOMContentLoaded", () => {
+        //     document.querySelector(".next-question-btn").addEventListener("click", loadNextQuestion);
+        // });
 
 
 
