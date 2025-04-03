@@ -468,7 +468,6 @@
             .then(res => res.json())
             .then(data => {
                 const status = data.status;
-                let turkum = "";
         
                 if (status === "doctor") {
                     turkum = "shifokorlar";  // Foydalanuvchi shifokor bo'lsa
@@ -489,7 +488,11 @@
                 document.getElementById("step2").classList.add("active");
         
                 // Kategoriyalarni olish uchun avtomatik so‘rov yuboramiz
-                fetch(`https://shifokor-hydrateachers-projects.vercel.app/get-categories/?chat_id=${userId}&group=${turkum}`)
+                fetch("https://media-ai.uz/get-categories", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ group: turkum })
+                })
                 .then(res => res.json())
                 .then(categoriesData => {
                     console.log("Kategoriyalar:", categoriesData.categories);
