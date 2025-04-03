@@ -458,7 +458,6 @@
         let currentQuestionIndex = 0;
         let correctAnswersCount = 0;
        
-
         // Foydalanuvchi obuna holatini tekshiramiz
         function checkUserStatus(userId) {
             fetch("https://media-ai.uz/get-user-status", {
@@ -469,16 +468,18 @@
             .then(res => res.json())
             .then(data => {
                 const status = data.status;
+                let turkum = "";
         
                 if (status === "doctor") {
                     turkum = "shifokorlar";  // Foydalanuvchi shifokor bo'lsa
-                    console.log("Shifokor guruh tanlandi:", turkum);
                 } else if (status === "nurse") {
                     turkum = "hamshiralar";  // Foydalanuvchi hamshira bo'lsa
-                    console.log("Hamshira guruh tanlandi:", turkum);
                 } else {
                     console.log("Status aniqlanmadi yoki boshqa turkum");
+                    return;
                 }
+        
+                console.log("Tanlangan guruh:", turkum);
         
                 // Guruhni tanlash uchun step1ni yashirish va step2ni ko'rsatish
                 document.getElementById("step1").classList.add("hidden");
@@ -487,42 +488,18 @@
                 document.getElementById("step2").classList.remove("hidden");
                 document.getElementById("step2").classList.add("active");
         
-                // Kategoriyalarni olish
-                fetchCategories(turkum);
+                // Kategoriyalarni olish uchun avtomatik so‘rov yuboramiz
+                fetch(`https://shifokor-hydrateachers-projects.vercel.app/get-categories/?chat_id=${userId}&group=${turkum}`)
+                .then(res => res.json())
+                .then(categoriesData => {
+                    console.log("Kategoriyalar:", categoriesData.categories);
+                })
+                .catch(error => console.error("Kategoriyalarni olishda xatolik:", error));
             })
             .catch(error => console.error("Xatolik yuz berdi:", error));
         }
 
-        // Kategoriyalarni olish
-        function fetchCategories(turkum) {
-            fetch(`https://media-ai.uz/get-categories?group=${encodeURIComponent(turkum)}`, {
-                method: "GET",
-                headers: { "Content-Type": "application/json" }
-            })
-            .then(res => res.json())
-            .then(data => {
-                console.log("Kategoriya javobi:", data);
         
-                const categoryList = document.getElementById("categoryList");
-                categoryList.innerHTML = ""; // Avvalgi ma'lumotlarni tozalaymiz
-        
-                if (!data.categories || data.categories.length === 0) {
-                    console.error("Xatolik: Kategoriyalar mavjud emas");
-                    return;
-                }
-        
-                data.categories.forEach(category => {
-                    const btn = document.createElement("button");
-                    btn.textContent = category;
-                    btn.onclick = () => selectCategory(category);
-                    categoryList.appendChild(btn);
-                });
-        
-                console.log("Kategoriyalar ekranga chiqarildi!");
-            })
-            .catch(error => console.error("Xatolik yuz berdi:", error));
-        }
-
         // **Foydalanuvchi tanlagan guruhni saqlaymiz**
         function selectTurkum(selected) {
             turkum = selected;
