@@ -495,10 +495,9 @@
 
         // Kategoriyalarni olish
         function fetchCategories(turkum) {
-            fetch("https://media-ai.uz/get-categories", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ group: turkum })
+            fetch("https://media-ai.uz/get-categories?group=${encodeURIComponent(turkum)}", {
+                method: "GET",
+                headers: { "Content-Type": "application/json" }
             })
             .then(res => res.json())
             .then(data => {
