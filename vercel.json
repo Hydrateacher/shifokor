@@ -1,0 +1,19 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "app.py",  // Flask ilovangiz manzili
+      "use": "@vercel/python"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/get-categories",
+      "dest": "/app.py"  // Flask ilovasiga yo'naltirish
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"  // Barcha boshqa URL-lar uchun index.html sahifasini ko'rsatish
+    }
+  ]
+}
