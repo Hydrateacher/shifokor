@@ -458,50 +458,7 @@
         let currentQuestionIndex = 0;
         let correctAnswersCount = 0;
        
-        // Foydalanuvchi obuna holatini tekshiramiz
-        function checkUserStatus(userId) {
-            fetch("https://media-ai.uz/get-user-status", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ user_id: userId })
-            })
-            .then(res => res.json())
-            .then(data => {
-                const status = data.status;
         
-                if (status === "doctor") {
-                    turkum = "shifokorlar";  // Foydalanuvchi shifokor bo'lsa
-                } else if (status === "nurse") {
-                    turkum = "hamshiralar";  // Foydalanuvchi hamshira bo'lsa
-                } else {
-                    console.log("Status aniqlanmadi yoki boshqa turkum");
-                    return;
-                }
-        
-                console.log("Tanlangan guruh:", turkum);
-        
-                // Guruhni tanlash uchun step1ni yashirish va step2ni ko'rsatish
-                document.getElementById("step1").classList.add("hidden");
-                document.getElementById("step1").classList.remove("active");
-        
-                document.getElementById("step2").classList.remove("hidden");
-                document.getElementById("step2").classList.add("active");
-        
-                // Kategoriyalarni olish uchun avtomatik so‘rov yuboramiz
-                fetch("https://media-ai.uz/get-categories", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ group: turkum })
-                })
-                .then(res => res.json())
-                .then(categoriesData => {
-                    console.log("Kategoriyalar:", categoriesData.categories);
-                })
-                .catch(error => console.error("Kategoriyalarni olishda xatolik:", error));
-            })
-            .catch(error => console.error("Xatolik yuz berdi:", error));
-        }
-
         
         // **Foydalanuvchi tanlagan guruhni saqlaymiz**
         function selectTurkum(selected) {
